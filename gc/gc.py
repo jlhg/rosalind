@@ -1,38 +1,52 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 #
 # gc.py
 #
 # Copyright (C) 2013, Jian-Long Huang
 # Author: Jian-Long Huang (jianlong@ntu.edu.tw)
-# Version: 0.1
+# Version: 0.2
 # Created: 2013.1.11
 #
 # http://rosalind.info/problems/gc/
 #
-# usage: gc.py <input> <output>
+# usage: gc.py <input>
 
-import sys
+
+def calc_gc(seq):
+    """Computing GC content
+
+    seq: string
+    """
+    return (seq.count('C') + seq.count('G')) / float(len(seq))
+
+
+def main(finput):
+    """Computing GC content and print the result of highest GC-content
+
+    finput: input file with fasta format
+    """
+    with open(finput, 'r') as fi:
+        seq = {}
+        for line in fi:
+            if (line[0] == '>'):
+                header = line.strip()[1:]
+                seq.update({header: []})
+            else:
+                seq[header].append(line.strip())
+
+        max_gc_header = None
+        max_gc = 0
+
+        for h, s in seq.items():
+            gc = calc_gc(''.join(s))
+            if gc > max_gc:
+                max_gc_header = h
+                max_gc = gc
+
+        print(max_gc_header)
+        print('%.6f' % (max_gc * 100))
+
 
 if __name__ == '__main__':
-    with open(sys.argv[1], 'r') as fin, open(sys.argv[2], 'w') as fw:
-
-        seq = {}
-
-        for line in fin:
-            if (line[0] == '>'):
-                header = line.rstrip()
-                seq[header] = ''
-            else:
-                seq[header] = seq[header] + line.rstrip()
-
-        has_max_gcc_header = ''
-        gc_content = 0
-
-        for header in seq:
-            this_gc_content = (seq[header].count('C') + seq[header].count('G')) / len(seq[header])
-            if this_gc_content > gc_content:
-                has_max_gcc_header = header
-                gc_content = this_gc_content
-
-        fw.write(has_max_gcc_header[1:] + '\n' + str(gc_content * 100) + '%')
-        fw.flush()
+    import sys
+    main(*sys.argv[1:])

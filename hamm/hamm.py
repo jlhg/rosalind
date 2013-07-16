@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 #
 # hamm.py
 #
 # Copyright (C) 2013, Jian-Long Huang
 # Author: Jian-Long Huang (jianlong@ntu.edu.tw)
-# Version: 0.1
+# Version: 0.2
 # Created: 2013.1.11
 #
 # http://rosalind.info/problems/hamm/
@@ -14,10 +14,18 @@
 #
 # Usage: hamm.py <input>
 
-import sys
+
+def main(finput):
+    """Evolution as a sequence of mistakes
+
+    finput: input file with two lines of DNA strings
+    """
+    with open(finput, 'r') as fi:
+        s1 = fi.readline().rstrip()
+        s2 = fi.readline().rstrip()
+        print(sum(ch1 != ch2 for ch1, ch2 in zip(s1, s2)))
+
 
 if __name__ == '__main__':
-    with open(sys.argv[1], 'r') as fin:
-        s1 = fin.readline().rstrip()
-        s2 = fin.readline().rstrip()
-        print(sum(ch1 != ch2 for ch1, ch2 in zip(s1, s2)))
+    import sys
+    main(*sys.argv[1:])
