@@ -23,7 +23,7 @@ def main(finput, foutput):
 
     with open(finput, 'r') as fi, open(foutput, 'w') as fo:
         fo.write(fi.read().translate(table))
-        fo.flush
+        fo.flush()
 
 
 if __name__ == '__main__':
