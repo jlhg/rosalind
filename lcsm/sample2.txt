@@ -1,0 +1,6 @@
+>a
+ggAAA
+>b
+ggAAA
+>c
+ggAAA
