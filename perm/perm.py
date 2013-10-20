@@ -22,7 +22,7 @@ def main():
 def permutation(lst):
     """Print permutation of a list of elements"""
     if len(lst) == 1:
-        yield lst
+        yield lst[0]
     else:
         for i in lst:
             lst_new = list(lst)
